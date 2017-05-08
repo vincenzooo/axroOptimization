@@ -5,20 +5,10 @@ from scipy.optimize import fmin_slsqp,least_squares
 #from numbapro import guvectorize
 #from axro.merit import merit
 import astropy.io.fits as pyfits
-##import gc
 import scipy.interpolate as interp
 import utilities.transformations as tr
 import PyXFocus.conicsolve as conic
-import time
 
-#import cvxpy
-
-#Need to write merit function calculator for set of influence
-#functions and distortion array
-#Then, write a function that uses fmin_sqslp to minimize
-#sum of square of residuals
-
-#blas = cublas.Blas()
 def ampMeritFunction(voltages,distortion,ifuncs):
     """Simple merit function calculator.
     voltages is 1D array of weights for the influence functions
@@ -252,8 +242,8 @@ def convertFEAInfluence(filename,Nx,Ny,method='cubic',\
 def createShadePerimeter(sh,axialFraction=0.,azFraction=0.):
     """
     Create a shademask where a fraction of the axial and
-    azimuthal perimeter is blocked. Fraction is total fraction
-    blocked.
+    azimuthal perimeter is blocked.
+    Fraction is the fraction of blockage in each axis.
     sh is shape tuple e.g. (200,200)
     """
     arr = np.zeros(sh)
