@@ -1,13 +1,9 @@
 import numpy as np
-#from numbapro.cudalib import cublas
 import pdb,os
 from scipy.optimize import fmin_slsqp,least_squares
-#from numbapro import guvectorize
-#from axro.merit import merit
 import astropy.io.fits as pyfits
 import scipy.interpolate as interp
 import utilities.transformations as tr
-import PyXFocus.conicsolve as conic
 
 def ampMeritFunction(voltages,distortion,ifuncs):
     """Simple merit function calculator.
