@@ -1,15 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import scattering as scat
-#import utilities.imaging.man as man
-#import utilities.imaging.fitting as fit
-#import utilities.imaging.analysis as anal
-#import scipy.ndimage as nd
-import pdb
+import utilities.imaging.man as man
 import axro.solver as slv
-import traces.conicsolve as conic
-import legendremod as leg
-#import astropy.io.fits as pyfits
+import PyXFocus.conicsolve as conic
 
 def correctXrayTestMirror(d,ifs,shade=None,dx=None,azweight=.015,smax=5.,\
                           bounds=None):
@@ -76,27 +70,3 @@ def computeMeritFunctions(d,dx,x0=np.linspace(-5.,5.,1000),\
     
     return rmsPSF/primfoc*180/np.pi*60**2*2,hpdPSF/primfoc*180/np.pi*60**2,\
            [x0,resa]
-    
-def evaluate2DLeg(xo,yo,shade=np.ones((200,200)),ifs=None,coeff=1.,smax=5.):
-    """
-    Compute a 2D Legendre's and compute before and after
-    sensitivity.
-    """
-    #Load IFs
-    if ifs is None:
-        ifs = pyfits.getdata('/home/rallured/Dropbox/AXRO/'
-                             'XrayTest/IFs/161019_5x5mm_IFs.fits')
-    
-    #Create distortion
-    x,y = man.autoGrid(ifs[0])
-    dist = leg.singleorder(x,y,xo,yo)*coeff
-    
-    #Create correction
-    cor,volt = correctXrayTestMirror(dist,ifs,dx=[100./201],shade=shade,\
-                                     smax=smax)
-
-    #Evalute performances
-    perf0 = computeMeritFunctions(dist,[.5],x0=np.linspace(-5.,5.,500))[1]
-    perf1 = computeMeritFunctions(dist+cor,[.5],x0=np.linspace(-5.,5,500))[1]
-
-    return perf0,perf1,volt
