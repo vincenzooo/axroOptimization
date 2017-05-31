@@ -7,7 +7,8 @@ ifs = pyfits.getdata('/home/rallured/Dropbox/AXRO/InfluenceFunctions/220mmRoC/Co
 distortion = pyfits.getdata('/home/rallured/GoogleDrive/AXROMetrology/PCO1S08/161108_PCO1S08_CleanedDistortionData.fits')
 
 #Create shademask
-shade = eva.slv.createShadePerimeter((200,200),axialFraction=.25,azFraction=.25)
+shade = eva.slv.createShadePerimeter(np.shape(ifs[0]),axialFraction=.25,\
+                                     azFraction=.25)
 
 #Compute corrected mirror shape
 cor,coeff = eva.correctXrayTestMirror(distortion,ifs,shade=shade,dx=[.15])
